@@ -1,3 +1,6 @@
+## Camping Site 구축
+본 프로젝트는 한국 전체 캠핑장을 인기순위로 나열하는 사이트임.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

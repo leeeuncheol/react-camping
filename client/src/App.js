@@ -7,51 +7,37 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-// import { withStyles } from '@material-ui/Core/Styles';
+import { withStyles } from '@mui/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 
-// const styles = theme => ({
-//   root: {
-//     width: '100%',
-//     marginTop: theme.spacing.unit * 3,
-//     overflowX: "auto"
-//   },
-//   table: {
-//     minWidth: 1000
-//   }
-// })
 
-// const customers =[{
-//   'id' : 1,
-//   'image' : 'https://placeimg.com/64/64/1',
-//   'name' : '홍길동',
-//   'birthday' : '961222',
-//   'gender':'남자',
-//   'job' : '대학생'
-// },
-// {
-//   'id' : 2,
-//   'image' : 'https://placeimg.com/64/64/2',
-//   'name' : '나이스',
-//   'birthday' : '956621',
-//   'gender':'남자',
-//   'job' : '프로그래머'
-// },
-// {
-//   'id' : 3,
-//   'image' : 'https://placeimg.com/64/64/3',
-//   'name' : '이순신',
-//   'birthday' : '853325',
-//   'gender':'남자',
-//   'job' : '무직'
-// }]
+const styles =  ({
+  root: {
+    width: '100%',
+    // marginTop: theme.spacing.unit * 3,
+    marginTop: 50,
+    overflowX: "auto"
+  },
+  table: {
+    minWidth: 1000
+  },
+  progress: {
+    //margin: theme.spacing.unit * 2
+    marginTop: 50
+  }
+})
+
 
 class App extends Component{
 
+  //값이 변경되는 변수
   state = {
-    customers: ""
+    customers: "",
+    completed : 0
   }
 
   componentDidMount(){
+    this.timer = setInterval(this.progress, 20);
     this.callApi()
     .then(res => this.setState({customers: res}))
     .catch(err => console.log(err));
@@ -61,15 +47,21 @@ class App extends Component{
       const response = await fetch('/api/customers');
       const body = await response.json();
       return body;
-    }
+  }
+
+  progress = () => {
+    const { completed } = this.state;
+    this.setState({ completed: completed >= 100? 0 : completed + 1});
+  }
+
 
   render(){
-    // const { classes } = this.props;
+     const { classes } = this.props;
     return(
-      // <Paper className={classes.root}>
-        <Paper>
-          {/* <Table className = {classes.table}> */}
-          <Table>
+       <Paper className={classes.root}>
+        {/* <Paper> */}
+          <Table className = {classes.table}>
+          {/* <Table> */}
             <TableHead>
               <TableRow>
                 <TableCell>번호</TableCell>
@@ -92,7 +84,13 @@ class App extends Component{
               gender={c.gender}
               job ={c.job}
               />);
-              }) : ""}
+              }) : 
+              <TableRow>
+                <TableCell colSpan="6" align="center">
+                  <CircularProgress className={classes.progress} varient="determinate" value={this.state.completed}/>
+                </TableCell>
+              </TableRow>
+              }
             
             </TableBody>
           </Table>
@@ -101,5 +99,8 @@ class App extends Component{
   }
 }
 
-// export default withStyles(styles)(App);
-export default App;
+// export default App;
+
+export default withStyles(styles)(App);
+
+

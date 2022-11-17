@@ -104,7 +104,7 @@ class App extends Component{
               gender={c.gender}
               job ={c.job}
               />);
-              }) : 
+              }) :
               <TableRow>
                 <TableCell colSpan="6" align="center">
                   <CircularProgress className={classes.progress} varient="determinate" value={this.state.completed}/>

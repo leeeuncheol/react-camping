@@ -68,24 +68,25 @@ class CustomerAdd extends React.Component{
     }
 
     addCustomer = () => {
-        const url = '/api/customers';
-        const formDate = new FormData();
-        formDate.append('image', this.state.file);
-        console.log(this.state.file);
-        formDate.append('name', this.state.userName);
-        console.log(this.state.userName);
-        formDate.append('birthday', this.state.birthday);
-        console.log(this.state.birthday);
-        formDate.append('gender', this.state.gender);
-        console.log(this.state.gender);
-        formDate.append('job', this.state.job);
-        console.log(this.state.job);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
-        return axios.post(url, formDate, config);
+        const myUrl = '/api/customers';
+        const formData = new FormData();
+        formData.append('image', this.state.file);
+        formData.append('name', this.state.userName);
+        formData.append('birthday', this.state.birthday);
+        formData.append('gender', this.state.gender);
+        formData.append('job', this.state.job);
+        // const config = {
+        //     headers: {
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // }
+        // return axios.post(myUrl, formData, config);
+        return axios({
+            method: "post",
+            url: myUrl, 
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" }
+          });
     }
 
 
